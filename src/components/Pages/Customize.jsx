@@ -3,6 +3,7 @@ import { useRef, useEffect, useCallback } from 'react'
 import qrCode from 'qrcode-generator'
 import ContentCard from '../UI/ContentCard'
 import FeatureCard from '../UI/FeatureCard'
+import SEOHead from '../SEOHead'
 
 const Customize = () => {
     const { qrOptions, setQrOptions } = useApp()
@@ -67,6 +68,12 @@ const Customize = () => {
 
     return (
         <ContentCard>
+            <SEOHead 
+                title="Personnaliser QR Code - QR Studio"
+                description="Personnalisez vos QR codes avec des couleurs, tailles et styles uniques. Aperçu en temps réel et téléchargement en haute qualité."
+                keywords="personnaliser QR code, QR code couleur, QR code style, customiser QR code"
+                path="/customize"
+            />
             <h1 className="page-title">Personnaliser le Style</h1>
             <p className="main-description">
                 Personnalisez l'apparence de vos QR codes et voyez le résultat en temps réel

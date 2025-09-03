@@ -2,6 +2,7 @@ import { useApp } from '../../hooks/useApp'
 import { useRef, useEffect, useState } from 'react'
 import qrCode from 'qrcode-generator'
 import ContentCard from '../UI/ContentCard'
+import SEOHead from '../SEOHead'
 
 const History = () => {
     const { history } = useApp()
@@ -148,6 +149,12 @@ const History = () => {
     if (history.length === 0) {
         return (
             <ContentCard>
+                <SEOHead 
+                    title="Historique QR Codes - QR Studio"
+                    description="Consultez l'historique de tous vos QR codes créés. Téléchargez à nouveau vos codes précédents et gérez votre collection."
+                    keywords="historique QR code, mes QR codes, télécharger QR code, collection QR code"
+                    path="/history"
+                />
                 <h1 className="page-title">Historique des QR Codes</h1>
                 <p className="main-description">
                     Retrouvez tous vos QR codes créés et téléchargez-les à nouveau
@@ -168,6 +175,12 @@ const History = () => {
 
     return (
         <ContentCard>
+            <SEOHead 
+                title="Historique QR Codes - QR Studio"
+                description="Consultez l'historique de tous vos QR codes créés. Téléchargez à nouveau vos codes précédents et gérez votre collection."
+                keywords="historique QR code, mes QR codes, télécharger QR code, collection QR code"
+                path="/history"
+            />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <div>
                     <h1 className="page-title">Historique des QR Codes</h1>

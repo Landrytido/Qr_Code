@@ -1,0 +1,3 @@
+<!-- Cette image sera créée manuellement ou via un outil de design -->
+<!-- Dimensions recommandées: 1200x630px -->
+<!-- Contenu suggéré: Logo QR Studio + texte "Générateur de QR Code Gratuit" + fond moderne -->
