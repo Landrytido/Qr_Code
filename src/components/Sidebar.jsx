@@ -1,51 +1,66 @@
-import React from 'react';
-import { theme } from '../theme';
+
+import React, { useState } from 'react';
+import { icons } from '../assets/icons';
 
 const menu = [
-    { label: 'Accueil', path: '/' },
-    { label: 'Générer QR Code', path: '/generate' },
-    { label: 'Personnaliser', path: '/customize' },
-    { label: 'Historique', path: '/history' },
+    { label: 'Accueil', path: '/', icon: icons.home },
+    { label: 'Générer', path: '/generate', icon: icons.qr },
+    { label: 'Personnaliser', path: '/customize', icon: icons.customize },
+    { label: 'Historique', path: '/history', icon: icons.history },
 ];
 
-function Sidebar({ onNavigate }) {
+function ModernSidebar({ onNavigate, currentPage }) {
+    const [hoveredItem, setHoveredItem] = useState(null);
+
     return (
-        <aside style={{
-            width: 220,
-            background: theme.primary,
-            color: 'white',
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '32px 0',
-            boxShadow: '2px 0 8px rgba(0,0,0,0.05)',
-        }}>
-            <h2 style={{ textAlign: 'center', marginBottom: 32 }}>Menu</h2>
-            <nav>
-                {menu.map(item => (
-                    <button
-                        key={item.path}
-                        onClick={() => onNavigate(item.path)}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: 'white',
-                            fontSize: '1.1rem',
-                            padding: '16px 0',
-                            width: '100%',
-                            cursor: 'pointer',
-                            textAlign: 'left',
-                            transition: 'background 0.2s',
-                        }}
-                        onMouseOver={e => e.target.style.background = theme.secondary}
-                        onMouseOut={e => e.target.style.background = 'none'}
-                    >
-                        {item.label}
-                    </button>
-                ))}
-            </nav>
+        <aside className="modern-sidebar">
+            <div className="sidebar-content">
+                <div className="sidebar-logo">
+                    <h1>QR Studio</h1>
+                    <p>Générateur moderne</p>
+                </div>
+
+                <nav>
+                    {menu.map((item, index) => (
+                        <button
+                            key={item.path}
+                            onClick={() => onNavigate(item.path)}
+                            className={`nav-item ${currentPage === item.path ? 'active' : ''}`}
+                            onMouseEnter={() => setHoveredItem(index)}
+                            onMouseLeave={() => setHoveredItem(null)}
+                            style={{
+                                animationDelay: `${index * 0.1}s`
+                            }}
+                        >
+                            <span style={{
+                                marginRight: '12px',
+                                display: 'inline-flex',
+                                verticalAlign: 'middle',
+                                transform: hoveredItem === index ? 'scale(1.2)' : 'scale(1)',
+                                transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+                            }}>
+                                {item.icon}
+                            </span>
+                            {item.label}
+                        </button>
+                    ))}
+                </nav>
+
+                <div style={{
+                    position: 'absolute',
+                    bottom: '2rem',
+                    left: '1.5rem',
+                    right: '1.5rem',
+                    textAlign: 'center',
+                    color: 'rgba(255, 255, 255, 0.4)',
+                    fontSize: '0.8rem'
+                }}>
+                    <p>© 2024 QR Studio</p>
+                    <p>Design moderne</p>
+                </div>
+            </div>
         </aside>
     );
 }
 
-export default Sidebar;
+export default ModernSidebar;

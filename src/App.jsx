@@ -1,30 +1,28 @@
-
-
 import './modern.css';
 import React from 'react';
-import Layout from './components/Layout';
-import Home from './pages/Home';
-import Generate from './pages/Generate';
-import Customize from './pages/Customize';
-import History from './pages/History';
+import ModernLayout from './components/Layout';
+import ModernHome from './pages/Home';
+import ModernGenerate from './pages/Generate';
+import ModernCustomize from './pages/Customize';
+import ModernHistory from './pages/History';
 
 function App() {
   const renderPage = (path) => {
     switch (path) {
       case '/':
-        return <Home />;
+        return <ModernHome />;
       case '/generate':
-        return <Generate />;
+        return <ModernGenerate />;
       case '/customize':
-        return <Customize />;
+        return <ModernCustomize />;
       case '/history':
-        return <History />;
+        return <ModernHistory />;
       default:
-        return <Home />;
+        return <ModernHome />;
     }
   };
 
-  return <Layout>{renderPage}</Layout>;
+  return <ModernLayout>{renderPage}</ModernLayout>;
 }
 
 export default App;
