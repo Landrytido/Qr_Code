@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(135deg, #27ae60 0%, #145a32 100%);
+    margin: 0;
+    min-height: 100vh;
+}
+
+.container,
+main {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(39, 174, 96, 0.08);
+    padding: 32px;
+    margin: 32px auto;
+    max-width: 600px;
+}
+
+input[type="text"],
+select {
+    border-radius: 12px;
+    border: 1px solid #27ae60;
+    padding: 12px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+select:focus {
+    border: 1.5px solid #145a32;
+    outline: none;
+}
+
+button {
+    background: linear-gradient(90deg, #27ae60 60%, #145a32 100%);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.12);
+    transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #145a32 60%, #27ae60 100%);
+    transform: translateY(-2px) scale(1.03);
+}
+
+.sidebar {
+    background: #145a32;
+    color: #fff;
+    border-top-right-radius: 32px;
+    border-bottom-right-radius: 32px;
+    box-shadow: 2px 0 16px rgba(20, 90, 50, 0.12);
+    padding: 40px 0;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar h2 {
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.sidebar button {
+    background: none;
+    color: #fff;
+    border-radius: 12px;
+    padding: 12px 0;
+    width: 90%;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    transition: background 0.2s;
+}
+
+.sidebar button:hover {
+    background: #27ae60;
+}
+
+h1,
+h2 {
+    font-weight: 700;
+    color: #27ae60;
+    margin-bottom: 16px;
+}
