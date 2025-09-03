@@ -1,24 +1,22 @@
-import { useState } from 'react'
+import { useApp } from '../../hooks/useApp'
 import ContentCard from '../UI/ContentCard'
 import FeatureCard from '../UI/FeatureCard'
 
 const Customize = () => {
-    const [settings, setSettings] = useState({
-        foregroundColor: '#000000',
-        backgroundColor: '#ffffff',
-        moduleStyle: 'square',
-        errorCorrection: 'medium'
-    })
+    const { qrOptions, setQrOptions } = useApp()
 
-    const handleColorChange = (colorType, color) => {
-        setSettings(prev => ({
-            ...prev,
-            [colorType]: color
-        }))
+    const handleOptionChange = (key, value) => {
+        setQrOptions({ [key]: value })
     }
 
-    const handleApplyChanges = () => {
-        console.log('Applying customization:', settings)
+    const resetToDefaults = () => {
+        setQrOptions({
+            size: 256,
+            bgColor: '#ffffff',
+            fgColor: '#000000',
+            level: 'M',
+            includeMargin: true
+        })
     }
 
     return (
@@ -32,12 +30,12 @@ const Customize = () => {
                 <FeatureCard title="Couleurs">
                     <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <span style={{ color: 'var(--text-secondary)', minWidth: '100px' }}>Premier plan:</span>
+                            <span style={{ color: 'var(--text-secondary)', minWidth: '100px' }}>QR Code:</span>
                             <input
                                 type="color"
                                 className="color-picker"
-                                value={settings.foregroundColor}
-                                onChange={(e) => handleColorChange('foregroundColor', e.target.value)}
+                                value={qrOptions.fgColor}
+                                onChange={(e) => handleOptionChange('fgColor', e.target.value)}
                             />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -45,36 +43,26 @@ const Customize = () => {
                             <input
                                 type="color"
                                 className="color-picker"
-                                value={settings.backgroundColor}
-                                onChange={(e) => handleColorChange('backgroundColor', e.target.value)}
+                                value={qrOptions.bgColor}
+                                onChange={(e) => handleOptionChange('bgColor', e.target.value)}
                             />
                         </div>
                     </div>
                 </FeatureCard>
 
-                <FeatureCard title="Style des modules">
+                <FeatureCard title="Taille">
                     <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
-                        <select
-                            className="form-select"
-                            value={settings.moduleStyle}
-                            onChange={(e) => setSettings(prev => ({ ...prev, moduleStyle: e.target.value }))}
-                        >
-                            <option value="square">Carrés classiques</option>
-                            <option value="rounded">Carrés arrondis</option>
-                            <option value="circle">Cercles</option>
-                            <option value="diamond">Losanges</option>
-                        </select>
-                    </div>
-                </FeatureCard>
-
-                <FeatureCard title="Logo central">
-                    <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
-                        <button className="btn" style={{ background: 'rgba(255,255,255,0.1)' }}>
-                            Télécharger un logo
-                        </button>
-                        <small style={{ color: 'var(--text-secondary)' }}>
-                            Formats acceptés: PNG, JPG, SVG
-                        </small>
+                        <input
+                            type="range"
+                            min="128"
+                            max="1024"
+                            step="32"
+                            value={qrOptions.size}
+                            onChange={(e) => handleOptionChange('size', parseInt(e.target.value))}
+                        />
+                        <div style={{ textAlign: 'center' }}>
+                            <strong>{qrOptions.size}px</strong>
+                        </div>
                     </div>
                 </FeatureCard>
 
@@ -82,22 +70,38 @@ const Customize = () => {
                     <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
                         <select
                             className="form-select"
-                            value={settings.errorCorrection}
-                            onChange={(e) => setSettings(prev => ({ ...prev, errorCorrection: e.target.value }))}
+                            value={qrOptions.level}
+                            onChange={(e) => handleOptionChange('level', e.target.value)}
                         >
-                            <option value="low">Faible (7%)</option>
-                            <option value="medium">Moyen (15%)</option>
-                            <option value="high">Élevé (25%)</option>
-                            <option value="max">Maximum (30%)</option>
+                            <option value="L">Faible (~7%)</option>
+                            <option value="M">Moyen (~15%)</option>
+                            <option value="Q">Élevé (~25%)</option>
+                            <option value="H">Très élevé (~30%)</option>
                         </select>
+                    </div>
+                </FeatureCard>
+
+                <FeatureCard title="Options">
+                    <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <input
+                                type="checkbox"
+                                checked={qrOptions.includeMargin}
+                                onChange={(e) => handleOptionChange('includeMargin', e.target.checked)}
+                            />
+                            <span>Inclure une marge</span>
+                        </label>
                     </div>
                 </FeatureCard>
             </div>
 
             <div style={{ marginTop: '2rem' }}>
-                <button className="btn" onClick={handleApplyChanges}>
-                    Appliquer les changements
+                <button className="btn" onClick={resetToDefaults} style={{ marginRight: '1rem' }}>
+                    Réinitialiser
                 </button>
+                <span style={{ color: 'var(--text-secondary)' }}>
+                    Les paramètres sont sauvegardés automatiquement
+                </span>
             </div>
         </ContentCard>
     )

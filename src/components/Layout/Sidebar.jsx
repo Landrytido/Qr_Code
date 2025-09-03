@@ -28,8 +28,8 @@ const Sidebar = ({ currentPage, onPageChange }) => {
             </ul>
 
             <div className="footer">
-                © 2024 QR Studio<br />
-                Design moderne
+                © 2025 QR Studio<br />
+                Design Landry
             </div>
         </div>
     )
@@ -60,6 +60,16 @@ const HistoryIcon = ({ className }) => (
         <path fillRule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 102 0V3a2 2 0 012 0v1a1 1 0 102 0V3a2 2 0 012 2v6.5A1.5 1.5 0 0112.5 13h-5A1.5 1.5 0 016 11.5V5zm8 5v2a1 1 0 11-2 0v-2a1 1 0 112 0zm-6 0v2a1 1 0 11-2 0v-2a1 1 0 112 0z" clipRule="evenodd" />
     </svg>
 )
+
+// PropTypes pour les icônes
+const iconPropTypes = {
+    className: PropTypes.string
+}
+
+HomeIcon.propTypes = iconPropTypes
+GridIcon.propTypes = iconPropTypes
+EditIcon.propTypes = iconPropTypes
+HistoryIcon.propTypes = iconPropTypes
 
 Sidebar.propTypes = {
     currentPage: PropTypes.string.isRequired,
