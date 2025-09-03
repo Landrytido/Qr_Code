@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qr-studio.vercel.app/sitemap.xml
+Sitemap: https://qr-code-kappa-flame.vercel.app/sitemap.xml

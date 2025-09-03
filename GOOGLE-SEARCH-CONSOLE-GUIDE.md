@@ -10,7 +10,7 @@
 ### **B. Ajout de ta propriété**
 1. Clique sur "Ajouter une propriété"
 2. Choisis "Préfixe d'URL"
-3. Entre ton URL : `https://qr-studio.vercel.app/`
+3. Entre ton URL : `https://qr-code-kappa-flame.vercel.app/`
 4. Clique sur "Continuer"
 
 ### **C. Vérification de propriété**
@@ -28,7 +28,7 @@
 ## 📊 **Étape 2 : Soumission du Sitemap**
 
 ### **A. Vérification du sitemap**
-Ton sitemap est déjà créé : `https://ton-domaine.vercel.app/sitemap.xml`
+Ton sitemap est déjà créé : `https://qr-code-kappa-flame.vercel.app/sitemap.xml`
 
 ### **B. Soumission**
 1. Dans Search Console, va dans "Sitemaps" (menu gauche)

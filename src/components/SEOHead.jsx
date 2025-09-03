@@ -20,7 +20,7 @@ const SEOHead = ({ title, description, keywords, path = '' }) => {
         // Mise à jour de l'URL canonique
         const canonicalLink = document.querySelector('link[rel="canonical"]');
         if (canonicalLink) {
-            canonicalLink.setAttribute('href', `https://qr-studio.vercel.app${path}`);
+            canonicalLink.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
         }
 
         // Mise à jour Open Graph
@@ -30,7 +30,7 @@ const SEOHead = ({ title, description, keywords, path = '' }) => {
 
         if (ogTitle) ogTitle.setAttribute('content', title);
         if (ogDescription) ogDescription.setAttribute('content', description);
-        if (ogUrl) ogUrl.setAttribute('href', `https://qr-studio.vercel.app${path}`);
+        if (ogUrl) ogUrl.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
 
         // Mise à jour Twitter
         const twitterTitle = document.querySelector('meta[property="twitter:title"]');
@@ -39,7 +39,7 @@ const SEOHead = ({ title, description, keywords, path = '' }) => {
 
         if (twitterTitle) twitterTitle.setAttribute('content', title);
         if (twitterDescription) twitterDescription.setAttribute('content', description);
-        if (twitterUrl) twitterUrl.setAttribute('href', `https://qr-studio.vercel.app${path}`);
+        if (twitterUrl) twitterUrl.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
     }, [title, description, keywords, path]);
 
     return null;

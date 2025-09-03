@@ -53,7 +53,7 @@ git push
 
 ### **Étapes immédiates**
 1. **Va sur** : https://search.google.com/search-console/
-2. **Ajoute ta propriété** : `https://qr-studio.vercel.app/`
+2. **Ajoute ta propriété** : `https://qr-code-kappa-flame.vercel.app/`
 3. **Vérifie** avec le fichier HTML ou meta tag
 4. **Soumets le sitemap** : `sitemap.xml`
 
