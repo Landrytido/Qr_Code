@@ -46,7 +46,8 @@ const appReducer = (state, action) => {
                 options: action.payload.options,
                 createdAt: new Date().toISOString()
             }
-            const updatedHistory = [newHistoryItem, ...state.history].slice(0, 50)
+            // Limite à 6 éléments - supprime le plus ancien après 6
+            const updatedHistory = [newHistoryItem, ...state.history].slice(0, 6)
 
             localStorage.setItem('qr-history', JSON.stringify(updatedHistory))
 

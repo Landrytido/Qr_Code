@@ -1,19 +1,63 @@
 import { useApp } from '../../hooks/useApp'
+import { useRef, useEffect, useState } from 'react'
 import qrCode from 'qrcode-generator'
 import ContentCard from '../UI/ContentCard'
 
 const History = () => {
     const { history } = useApp()
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     const formatDate = (dateString) => {
         const date = new Date(dateString)
         return new Intl.DateTimeFormat('fr-FR', {
-            year: 'numeric',
-            month: 'long',
             day: 'numeric',
+            month: 'short',
+            year: 'numeric',
             hour: '2-digit',
             minute: '2-digit'
         }).format(date)
+    }
+
+    const QRPreview = ({ item }) => {
+        const canvasRef = useRef(null)
+
+        useEffect(() => {
+            const canvas = canvasRef.current
+            if (!canvas) return
+
+            const ctx = canvas.getContext('2d')
+            const qr = qrCode(0, item.options.level || 'M')
+            qr.addData(item.data)
+            qr.make()
+
+            const moduleCount = qr.getModuleCount()
+            const margin = item.options.includeMargin ? 4 : 0
+            const totalSize = moduleCount + (margin * 2)
+            const size = 120
+            const cellSize = size / totalSize
+
+            canvas.width = size
+            canvas.height = size
+
+            // Fond
+            ctx.fillStyle = item.options.bgColor || '#ffffff'
+            ctx.fillRect(0, 0, size, size)
+
+            // QR code
+            ctx.fillStyle = item.options.fgColor || '#000000'
+
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    if (qr.isDark(row, col)) {
+                        const x = (col + margin) * cellSize
+                        const y = (row + margin) * cellSize
+                        ctx.fillRect(x, y, cellSize, cellSize)
+                    }
+                }
+            }
+        }, [item])
+
+        return <canvas ref={canvasRef} className="history-qr-canvas" />
     }
 
     const downloadQR = (item) => {
@@ -25,20 +69,26 @@ const History = () => {
         qr.make()
 
         const moduleCount = qr.getModuleCount()
-        const cellSize = item.options.size / moduleCount
+        const margin = item.options.includeMargin ? 4 : 0
+        const totalSize = moduleCount + (margin * 2)
+        const cellSize = item.options.size / totalSize
 
         canvas.width = item.options.size
         canvas.height = item.options.size
 
+        // Fond
         ctx.fillStyle = item.options.bgColor || '#ffffff'
         ctx.fillRect(0, 0, item.options.size, item.options.size)
 
+        // QR code avec marges
         ctx.fillStyle = item.options.fgColor || '#000000'
 
         for (let row = 0; row < moduleCount; row++) {
             for (let col = 0; col < moduleCount; col++) {
                 if (qr.isDark(row, col)) {
-                    ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize)
+                    const x = (col + margin) * cellSize
+                    const y = (row + margin) * cellSize
+                    ctx.fillRect(x, y, cellSize, cellSize)
                 }
             }
         }
@@ -50,10 +100,53 @@ const History = () => {
     }
 
     const clearHistory = () => {
-        if (confirm('Êtes-vous sûr de vouloir supprimer tout l\'historique ?')) {
-            localStorage.removeItem('qr-history')
-            window.location.reload()
-        }
+        localStorage.removeItem('qr-history')
+        window.location.reload()
+    }
+
+    const confirmClearHistory = () => {
+        setShowDeleteModal(false)
+        clearHistory()
+    }
+
+    const DeleteModal = () => {
+        if (!showDeleteModal) return null
+
+        return (
+            <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <div className="modal-icon">
+                            <span>🗑️</span>
+                        </div>
+                        <h3>Vider l'historique</h3>
+                    </div>
+
+                    <div className="modal-body">
+                        <p>Êtes-vous sûr de vouloir supprimer tous vos QR codes de l'historique ?</p>
+                        <p className="modal-warning">
+                            Cette action supprimera définitivement <strong>{history.length} QR code{history.length > 1 ? 's' : ''}</strong> et ne peut pas être annulée.
+                        </p>
+                    </div>
+
+                    <div className="modal-actions">
+                        <button
+                            className="modal-btn modal-btn-cancel"
+                            onClick={() => setShowDeleteModal(false)}
+                        >
+                            Annuler
+                        </button>
+                        <button
+                            className="modal-btn modal-btn-delete"
+                            onClick={confirmClearHistory}
+                        >
+                            <span>🗑️</span>
+                            Vider l'historique
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     if (history.length === 0) {
@@ -67,10 +160,11 @@ const History = () => {
                 <div style={{
                     textAlign: 'center',
                     padding: '3rem 1rem',
-                    color: 'var(--text-secondary)'
+                    color: '#94a3b8'
                 }}>
-                    <h3>Aucun QR code généré</h3>
-                    <p>Commencez par générer votre premier QR code !</p>
+                    <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📱</div>
+                    <h3 style={{ color: '#e2e8f0', marginBottom: '0.5rem' }}>Aucun QR code généré</h3>
+                    <p style={{ color: '#94a3b8' }}>Commencez par générer votre premier QR code !</p>
                 </div>
             </ContentCard>
         )
@@ -86,10 +180,10 @@ const History = () => {
                     </p>
                 </div>
                 <button
-                    onClick={clearHistory}
-                    className="btn"
-                    style={{ background: 'rgba(239, 68, 68, 0.2)', color: '#ef4444' }}
+                    onClick={() => setShowDeleteModal(true)}
+                    className="clear-history-btn"
                 >
+                    <span>🗑️</span>
                     Vider l'historique
                 </button>
             </div>
@@ -97,26 +191,36 @@ const History = () => {
             <div className="history-grid">
                 {history.map(item => (
                     <div key={item.id} className="history-card">
-                        <div className="history-qr">
-                            QR Code<br />
-                            <small>{formatDate(item.createdAt)}</small>
+                        <div className="history-qr-container">
+                            <QRPreview item={item} />
                         </div>
-                        <div className="history-info">
-                            <div className="history-title">
-                                {item.data.length > 30
-                                    ? `${item.data.substring(0, 30)}...`
+
+                        <div className="history-content">
+                            <div className="history-date">
+                                {formatDate(item.createdAt)}
+                            </div>
+
+                            <div className="history-text">
+                                {item.data.length > 40
+                                    ? `${item.data.substring(0, 40)}...`
                                     : item.data
                                 }
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                                    {item.options.size}px
-                                </span>
+
+                            <div className="history-details">
+                                <div className="history-specs">
+                                    <span className="spec-item">{item.options.size}px</span>
+                                    <span className="spec-item">Niveau {item.options.level}</span>
+                                    <span className="spec-item">
+                                        {item.options.includeMargin ? 'Avec marge' : 'Sans marge'}
+                                    </span>
+                                </div>
+
                                 <button
                                     onClick={() => downloadQR(item)}
-                                    className="btn"
-                                    style={{ fontSize: '0.8rem', padding: '0.25rem 0.5rem' }}
+                                    className="download-btn"
                                 >
+                                    <span>📥</span>
                                     Télécharger
                                 </button>
                             </div>
@@ -124,6 +228,8 @@ const History = () => {
                     </div>
                 ))}
             </div>
+
+            <DeleteModal />
         </ContentCard>
     )
 }
