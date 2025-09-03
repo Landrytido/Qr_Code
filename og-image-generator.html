@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio - Open Graph Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .og-card {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .og-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+        }
+        
+        .content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            letter-spacing: -2px;
+        }
+        
+        .subtitle {
+            font-size: 36px;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .decorative-qr {
+            position: absolute;
+            top: 50px;
+            right: 80px;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 8px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        
+        .decorative-qr::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        
+        .features {
+            position: absolute;
+            bottom: 60px;
+            left: 80px;
+            display: flex;
+            gap: 40px;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-card">
+        <div class="decorative-qr"></div>
+        
+        <div class="content">
+            <div class="logo">
+                <span class="logo-text">QR</span>
+            </div>
+            <h1 class="title">QR Studio</h1>
+            <p class="subtitle">Générateur de QR Code Gratuit</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <span>Rapide</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <span>Personnalisable</span>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💯</div>
+                <span>Gratuit</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Instructions pour capturer l'image
+        console.log(`
+📸 Pour créer l'image Open Graph :
+
+1. Ouvre les outils développeur (F12)
+2. Active le mode responsive design
+3. Définis la taille : 1200 x 630 pixels
+4. Prends une capture d'écran de la carte
+5. Sauvegarde comme 'og-image.png' dans le dossier public/
+6. Remplace 'og-image-placeholder.txt' par le fichier PNG
+
+Ou utilise un outil comme html2canvas pour automatiser.
+        `);
+    </script>
+</body>
+</html>

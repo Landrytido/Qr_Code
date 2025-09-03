@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Studio - Automated OG Image</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .download-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        
+        .download-btn:hover {
+            background: #2563eb;
+        }
+        
+        .og-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .og-card {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .og-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+        }
+        
+        .content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            letter-spacing: -2px;
+        }
+        
+        .subtitle {
+            font-size: 36px;
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .decorative-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+        
+        .qr-pattern {
+            position: absolute;
+            top: 50px;
+            right: 80px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transform: rotate(15deg);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 2px;
+            padding: 8px;
+        }
+        
+        .qr-dot {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+        
+        .qr-dot:nth-child(1), .qr-dot:nth-child(3), .qr-dot:nth-child(5),
+        .qr-dot:nth-child(7), .qr-dot:nth-child(9), .qr-dot:nth-child(11),
+        .qr-dot:nth-child(13), .qr-dot:nth-child(15), .qr-dot:nth-child(17),
+        .qr-dot:nth-child(19), .qr-dot:nth-child(21), .qr-dot:nth-child(23),
+        .qr-dot:nth-child(25) {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .features {
+            position: absolute;
+            bottom: 60px;
+            left: 80px;
+            display: flex;
+            gap: 50px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .url {
+            position: absolute;
+            bottom: 60px;
+            right: 80px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h2>Générateur d'Image Open Graph - QR Studio</h2>
+        <button class="download-btn" onclick="generateImage()">📸 Générer et Télécharger OG Image</button>
+        <button class="download-btn" onclick="generateFavicon()">🎯 Générer Favicon</button>
+    </div>
+    
+    <div class="og-container">
+        <div class="og-card" id="ogCard">
+            <div class="decorative-elements">
+                <div class="qr-pattern">
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                    <div class="qr-dot"></div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="logo">
+                    <span class="logo-text">QR</span>
+                </div>
+                <h1 class="title">QR Studio</h1>
+                <p class="subtitle">Générateur de QR Code Gratuit</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <span>Rapide</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <span>Personnalisable</span>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💯</div>
+                    <span>Gratuit</span>
+                </div>
+            </div>
+            
+            <div class="url">qr-studio.vercel.app</div>
+        </div>
+    </div>
+    
+    <script>
+        function generateImage() {
+            const card = document.getElementById('ogCard');
+            
+            html2canvas(card, {
+                width: 1200,
+                height: 630,
+                scale: 1,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'og-image.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                console.log('✅ Image Open Graph générée et téléchargée !');
+                console.log('📁 Place le fichier "og-image.png" dans le dossier public/ de ton projet');
+            }).catch(error => {
+                console.error('❌ Erreur lors de la génération:', error);
+                alert('Erreur lors de la génération. Vérifie la console pour plus de détails.');
+            });
+        }
+        
+        function generateFavicon() {
+            const logoContainer = document.querySelector('.logo');
+            
+            html2canvas(logoContainer, {
+                width: 512,
+                height: 512,
+                scale: 4,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: 'transparent'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'icon-512.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Générer aussi la version 192px
+                const canvas192 = document.createElement('canvas');
+                const ctx192 = canvas192.getContext('2d');
+                canvas192.width = 192;
+                canvas192.height = 192;
+                ctx192.drawImage(canvas, 0, 0, 192, 192);
+                
+                const link192 = document.createElement('a');
+                link192.download = 'icon-192.png';
+                link192.href = canvas192.toDataURL('image/png');
+                link192.click();
+                
+                console.log('✅ Icônes PWA générées et téléchargées !');
+                console.log('📁 Place les fichiers dans le dossier public/ de ton projet');
+            }).catch(error => {
+                console.error('❌ Erreur lors de la génération du favicon:', error);
+            });
+        }
+        
+        // Auto-génération au chargement de la page
+        window.addEventListener('load', () => {
+            console.log(`
+🎨 Générateur d'images QR Studio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📸 Clique sur "Générer et Télécharger OG Image" pour créer ton image Open Graph
+🎯 Clique sur "Générer Favicon" pour créer tes icônes PWA
+
+Les images seront automatiquement téléchargées dans ton dossier Téléchargements.
+Place-les ensuite dans le dossier public/ de ton projet.
+
+Dimensions générées :
+• og-image.png : 1200 × 630px (Open Graph)
+• icon-512.png : 512 × 512px (PWA)
+• icon-192.png : 192 × 192px (PWA)
+            `);
+        });
+    </script>
+</body>
+</html>
