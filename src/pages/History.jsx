@@ -5,45 +5,8 @@ function ModernHistory() {
     const [isVisible, setIsVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Mock data pour l'historique
-    const [historyItems] = useState([
-        {
-            id: 1,
-            content: 'https://qrstudio.app',
-            type: 'URL',
-            createdAt: '2024-01-15',
-            color: '#00f5a0',
-            bgColor: '#ffffff',
-            scans: 142
-        },
-        {
-            id: 2,
-            content: 'WIFI:T:WPA;S:MonWiFi;P:motdepasse123;;',
-            type: 'WiFi',
-            createdAt: '2024-01-14',
-            color: '#00d9ff',
-            bgColor: '#f0f9ff',
-            scans: 89
-        },
-        {
-            id: 3,
-            content: 'Contact: Jean Dupont\n+33123456789\njean@email.com',
-            type: 'Contact',
-            createdAt: '2024-01-12',
-            color: '#667eea',
-            bgColor: '#faf5ff',
-            scans: 23
-        },
-        {
-            id: 4,
-            content: 'Hello World! QR Studio est fantastique!',
-            type: 'Texte',
-            createdAt: '2024-01-10',
-            color: '#f5576c',
-            bgColor: '#fff7ed',
-            scans: 67
-        }
-    ]);
+    // Historique vide ou à remplir dynamiquement
+    const [historyItems] = useState([]);
 
     useEffect(() => {
         setIsVisible(true);
