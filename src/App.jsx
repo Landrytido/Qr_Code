@@ -1,28 +1,17 @@
-import './modern.css';
-import React from 'react';
-import ModernLayout from './components/Layout';
-import ModernHome from './pages/Home';
-import ModernGenerate from './pages/Generate';
-import ModernCustomize from './pages/Customize';
-import ModernHistory from './pages/History';
+import { useState } from 'react'
+import Sidebar from './components/Layout/Sidebar'
+import MainContent from './components/Layout/MainContent'
+import './styles/globals.css'
 
 function App() {
-  const renderPage = (path) => {
-    switch (path) {
-      case '/':
-        return <ModernHome />;
-      case '/generate':
-        return <ModernGenerate />;
-      case '/customize':
-        return <ModernCustomize />;
-      case '/history':
-        return <ModernHistory />;
-      default:
-        return <ModernHome />;
-    }
-  };
+  const [currentPage, setCurrentPage] = useState('home')
 
-  return <ModernLayout>{renderPage}</ModernLayout>;
+  return (
+    <div className="app">
+      <Sidebar currentPage={currentPage} onPageChange={setCurrentPage} />
+      <MainContent currentPage={currentPage} />
+    </div>
+  )
 }
 
-export default App;
+export default App
