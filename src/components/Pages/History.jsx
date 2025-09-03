@@ -39,11 +39,9 @@ const History = () => {
             canvas.width = size
             canvas.height = size
 
-            // Fond
             ctx.fillStyle = item.options.bgColor || '#ffffff'
             ctx.fillRect(0, 0, size, size)
 
-            // QR code
             ctx.fillStyle = item.options.fgColor || '#000000'
 
             for (let row = 0; row < moduleCount; row++) {
@@ -76,11 +74,9 @@ const History = () => {
         canvas.width = item.options.size
         canvas.height = item.options.size
 
-        // Fond
         ctx.fillStyle = item.options.bgColor || '#ffffff'
         ctx.fillRect(0, 0, item.options.size, item.options.size)
 
-        // QR code avec marges
         ctx.fillStyle = item.options.fgColor || '#000000'
 
         for (let row = 0; row < moduleCount; row++) {

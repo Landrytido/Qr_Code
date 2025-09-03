@@ -1,7 +1,6 @@
 import { createContext, useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-// Actions
 const ACTIONS = {
     SET_QR_DATA: 'SET_QR_DATA',
     SET_QR_OPTIONS: 'SET_QR_OPTIONS',
@@ -10,7 +9,6 @@ const ACTIONS = {
     LOAD_HISTORY: 'LOAD_HISTORY'
 }
 
-// État initial
 const initialState = {
     currentPage: 'home',
     qrData: '',
@@ -24,7 +22,6 @@ const initialState = {
     history: []
 }
 
-// Reducer
 const appReducer = (state, action) => {
     switch (action.type) {
         case ACTIONS.SET_CURRENT_PAGE:
@@ -46,7 +43,6 @@ const appReducer = (state, action) => {
                 options: action.payload.options,
                 createdAt: new Date().toISOString()
             }
-            // Limite à 6 éléments - supprime le plus ancien après 6
             const updatedHistory = [newHistoryItem, ...state.history].slice(0, 6)
 
             localStorage.setItem('qr-history', JSON.stringify(updatedHistory))
@@ -62,14 +58,11 @@ const appReducer = (state, action) => {
     }
 }
 
-// Contexte
 const AppContext = createContext()
 
-// Provider
 export const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(appReducer, initialState)
 
-    // Charger l'historique au démarrage
     useEffect(() => {
         const savedHistory = localStorage.getItem('qr-history')
         if (savedHistory) {
@@ -82,7 +75,6 @@ export const AppProvider = ({ children }) => {
         }
     }, [])
 
-    // Actions
     const setCurrentPage = (page) => {
         dispatch({ type: ACTIONS.SET_CURRENT_PAGE, payload: page })
     }
@@ -110,9 +102,7 @@ export const AppProvider = ({ children }) => {
     }
 
     const value = {
-        // État
         ...state,
-        // Actions
         setCurrentPage,
         setQrData,
         setQrOptions,

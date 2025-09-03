@@ -2,8 +2,6 @@ import React from 'react'
 import './QRLogo.css'
 
 const QRLogo = () => {
-    // QR code 9x9 simplifié qui encode "QR Studio"
-    // 1 = module noir, 0 = module blanc
     const qrPattern = [
         [1, 1, 1, 1, 1, 1, 1, 0, 1],
         [1, 0, 0, 0, 0, 0, 1, 0, 0],

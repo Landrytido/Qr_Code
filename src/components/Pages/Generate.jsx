@@ -11,7 +11,6 @@ const Generate = () => {
     const [generatedQR, setGeneratedQR] = useState(null)
     const canvasRef = useRef(null)
 
-    // État pour les différents types de contenu
     const [wifiData, setWifiData] = useState({
         ssid: '',
         password: '',
@@ -70,7 +69,6 @@ const Generate = () => {
         setQrData(dataToGenerate)
 
         try {
-            // Délai artificiel pour montrer l'animation (minimum 1.5 secondes)
             const startTime = Date.now()
 
             const qr = qrCode(0, qrOptions.level || 'M')
@@ -85,11 +83,9 @@ const Generate = () => {
             canvas.width = qrOptions.size
             canvas.height = qrOptions.size
 
-            // Fond
             ctx.fillStyle = qrOptions.bgColor || '#ffffff'
             ctx.fillRect(0, 0, qrOptions.size, qrOptions.size)
 
-            // QR code
             ctx.fillStyle = qrOptions.fgColor || '#000000'
 
             for (let row = 0; row < moduleCount; row++) {
@@ -277,7 +273,6 @@ const Generate = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
                 <div className="generator-form">
-                    {/* Sélecteur de type simple */}
                     <div className="form-group">
                         <label className="form-label">Type de contenu</label>
                         <select

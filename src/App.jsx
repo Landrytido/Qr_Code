@@ -4,7 +4,6 @@ import Sidebar from './components/Layout/Sidebar'
 import MainContent from './components/Layout/MainContent'
 import './styles/globals.css'
 
-// Composant avec la logique
 const AppContent = () => {
   const { currentPage, setCurrentPage } = useApp()
 
@@ -16,7 +15,6 @@ const AppContent = () => {
   )
 }
 
-// App principal avec provider
 function App() {
   return (
     <AppProvider>

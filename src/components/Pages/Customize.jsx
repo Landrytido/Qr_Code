@@ -8,7 +8,6 @@ const Customize = () => {
     const { qrOptions, setQrOptions } = useApp()
     const canvasRef = useRef(null)
 
-    // Génère un QR code de démonstration en temps réel
     const generatePreview = useCallback(() => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -29,11 +28,9 @@ const Customize = () => {
             canvas.width = qrOptions.size
             canvas.height = qrOptions.size
 
-            // Fond
             ctx.fillStyle = qrOptions.bgColor || '#ffffff'
             ctx.fillRect(0, 0, qrOptions.size, qrOptions.size)
 
-            // QR code avec marges
             ctx.fillStyle = qrOptions.fgColor || '#000000'
 
             for (let row = 0; row < moduleCount; row++) {
@@ -64,7 +61,6 @@ const Customize = () => {
         })
     }
 
-    // Met à jour l'aperçu quand les options changent
     useEffect(() => {
         generatePreview()
     }, [generatePreview])
@@ -77,7 +73,6 @@ const Customize = () => {
             </p>
 
             <div className="customize-layout">
-                {/* Section Paramètres */}
                 <div className="customize-controls">
                     <div className="customization-grid">
                         <FeatureCard title="Couleurs">
@@ -176,7 +171,6 @@ const Customize = () => {
                     </div>
                 </div>
 
-                {/* Section Aperçu */}
                 <div className="customize-preview">
                     <div className="preview-container">
                         <h3 className="preview-title">Aperçu en temps réel</h3>
