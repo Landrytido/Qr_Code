@@ -12,6 +12,18 @@
     ],
     "routes": [
         {
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
+        {
+            "src": "/src/(.*)",
+            "dest": "/src/$1"
+        },
+        {
+            "src": "/(.*\\.(js|jsx|ts|tsx|css|png|jpg|jpeg|gif|svg|ico|json|xml|txt|html))",
+            "dest": "/$1"
+        },
+        {
             "src": "/.*",
             "dest": "/index.html"
         }
@@ -35,6 +47,15 @@
                 {
                     "key": "Referrer-Policy",
                     "value": "strict-origin-when-cross-origin"
+                }
+            ]
+        },
+        {
+            "source": "/(.*\\.(js|jsx|mjs))",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "application/javascript; charset=utf-8"
                 }
             ]
         },
