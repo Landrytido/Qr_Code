@@ -149,7 +149,7 @@ const History = () => {
     if (history.length === 0) {
         return (
             <ContentCard>
-                <SEOHead 
+                <SEOHead
                     title="Historique QR Codes - QR Studio"
                     description="Consultez l'historique de tous vos QR codes créés. Téléchargez à nouveau vos codes précédents et gérez votre collection."
                     keywords="historique QR code, mes QR codes, télécharger QR code, collection QR code"
@@ -175,7 +175,7 @@ const History = () => {
 
     return (
         <ContentCard>
-            <SEOHead 
+            <SEOHead
                 title="Historique QR Codes - QR Studio"
                 description="Consultez l'historique de tous vos QR codes créés. Téléchargez à nouveau vos codes précédents et gérez votre collection."
                 keywords="historique QR code, mes QR codes, télécharger QR code, collection QR code"

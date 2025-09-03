@@ -28,7 +28,7 @@ function Home() {
 
     return (
         <div className="home">
-            <SEOHead 
+            <SEOHead
                 title="QR Studio - Générateur de QR Code Gratuit et Moderne"
                 description="Créez des QR codes personnalisés gratuitement avec QR Studio. Interface moderne, personnalisation complète et téléchargement haute qualité. Générateur rapide et intuitif."
                 keywords="QR code gratuit, générateur QR code, QR code personnalisé, créer QR code, QR code français, QR Studio"

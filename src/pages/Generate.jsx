@@ -37,7 +37,7 @@ function Generate() {
 
     return (
         <div className="page">
-            <SEOHead 
+            <SEOHead
                 title="Générer un QR Code - QR Studio"
                 description="Créez votre QR code personnalisé gratuitement. Ajoutez votre texte, URL, couleurs et téléchargez en haute qualité. Générateur rapide et facile à utiliser."
                 keywords="générer QR code, créer QR code, QR code URL, QR code texte, QR code personnalisé"

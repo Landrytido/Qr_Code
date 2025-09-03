@@ -68,7 +68,7 @@ const Customize = () => {
 
     return (
         <ContentCard>
-            <SEOHead 
+            <SEOHead
                 title="Personnaliser QR Code - QR Studio"
                 description="Personnalisez vos QR codes avec des couleurs, tailles et styles uniques. Aperçu en temps réel et téléchargement en haute qualité."
                 keywords="personnaliser QR code, QR code couleur, QR code style, customiser QR code"
