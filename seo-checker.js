@@ -216,7 +216,6 @@ function checkBuild() {
   return buildFailed === 0;
 }
 
-// Recommendations
 function showRecommendations() {
   console.log(`
 🚀 Recommandations SEO
@@ -242,12 +241,11 @@ function showRecommendations() {
     `);
 }
 
-// Exécution principale
 function main() {
   const filesOK = checkFiles();
   const htmlOK = checkHTMLContent();
   const reactOK = checkReactComponents();
-  checkBuild(); // Vérification du build (information)
+  checkBuild();
 
   const allOK = filesOK && htmlOK && reactOK;
 
@@ -266,11 +264,9 @@ Prêt pour la production : ${allOK ? "OUI ✅" : "NON ❌"}
 
   showRecommendations();
 
-  // eslint-disable-next-line no-undef
   if (typeof process !== "undefined") {
     process.exit(allOK ? 0 : 1);
   }
 }
 
-// Lancer le checker
 main();
