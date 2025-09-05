@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types'
+import { useMobile } from '../../hooks/useMobile'
 
 const Sidebar = ({ currentPage, onPageChange }) => {
+    const { isMobile, isMenuOpen, setIsMenuOpen } = useMobile()
+
     const menuItems = [
         { id: 'home', label: 'Accueil', icon: HomeIcon },
         { id: 'generate', label: 'Générer', icon: GridIcon },
@@ -8,72 +11,102 @@ const Sidebar = ({ currentPage, onPageChange }) => {
         { id: 'history', label: 'Historique', icon: HistoryIcon }
     ]
 
+    const handleMenuItemClick = (pageId) => {
+        onPageChange(pageId)
+        if (isMobile) {
+            setIsMenuOpen(false)
+        }
+    }
+
     return (
-        <div className="sidebar">
-            <div className="logo">QR Studio</div>
-            <div className="subtitle">Générateur moderne</div>
+        <>
+            <button
+                className="mobile-menu-toggle"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Toggle menu"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-            <ul className="nav-menu">
-                {menuItems.map(item => (
-                    <li key={item.id} className="nav-item">
-                        <button
-                            className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
-                            onClick={() => onPageChange(item.id)}
-                        >
-                            <item.icon className="nav-icon" />
-                            {item.label}
-                        </button>
-                    </li>
-                ))}
-            </ul>
+            <div className={`sidebar ${isMenuOpen ? 'sidebar-open' : ''}`}>
+                <div className="sidebar-header">
+                    <div className="logo">QR Studio</div>
+                    <div className="subtitle">Générateur moderne</div>
+                    <button
+                        className="mobile-close"
+                        onClick={() => setIsMenuOpen(false)}
+                        aria-label="Close menu"
+                    >
+                        ×
+                    </button>
+                </div>
 
-            <div className="sidebar-footer">
-                <div className="footer-signature">
-                    <div className="signature-main">
-                        <strong>QR Studio</strong>
-                        <span className="version">v1.0</span>
-                    </div>
+                <ul className="nav-menu">
+                    {menuItems.map(item => (
+                        <li key={item.id} className="nav-item">
+                            <button
+                                className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
+                                onClick={() => handleMenuItemClick(item.id)}
+                            >
+                                <item.icon className="nav-icon" />
+                                {item.label}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
 
-                    <div className="signature-author">
-                        <span>Créé par</span>
-                        <div className="author-info">
-                            <strong>Landry Tido</strong>
-                            <div className="author-links">
-                                <a
-                                    href="https://www.linkedin.com/in/landry-tido-atikeng/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="social-link linkedin"
-                                    title="LinkedIn - Landry Tido Atikeng"
-                                >
-                                    <LinkedInIcon className="social-icon" />
-                                </a>
-                                <a
-                                    href="https://github.com/Landrytido"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="social-link github"
-                                    title="GitHub - Landrytido"
-                                >
-                                    <GitHubIcon className="social-icon" />
-                                </a>
-                                <a
-                                    href="mailto:landrytido727@gmail.com"
-                                    className="social-link email"
-                                    title="Contact email"
-                                >
-                                    <EmailIcon className="social-icon" />
-                                </a>
+                <div className="sidebar-footer">
+                    <div className="footer-signature">
+                        <div className="signature-main">
+                            <strong>QR Studio</strong>
+                            <span className="version">v1.0</span>
+                        </div>
+
+                        <div className="signature-author">
+                            <span>Créé par</span>
+                            <div className="author-info">
+                                <strong>Landry Tido</strong>
+                                <div className="author-links">
+                                    <a
+                                        href="https://www.linkedin.com/in/landry-tido-atikeng/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="social-link linkedin"
+                                        title="LinkedIn - Landry Tido Atikeng"
+                                    >
+                                        <LinkedInIcon className="social-icon" />
+                                    </a>
+                                    <a
+                                        href="https://github.com/Landrytido"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="social-link github"
+                                        title="GitHub - Landrytido"
+                                    >
+                                        <GitHubIcon className="social-icon" />
+                                    </a>
+                                    <a
+                                        href="mailto:landrytido727@gmail.com"
+                                        className="social-link email"
+                                        title="Contact email"
+                                    >
+                                        <EmailIcon className="social-icon" />
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="signature-year">
-                        © 2025 • Développé avec 🤬😡
+                        <div className="signature-year">
+                            © 2025 • Développé avec 🤬😡
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            {isMenuOpen && <div className="sidebar-overlay" onClick={() => setIsMenuOpen(false)} />}
+        </>
     )
 }
 
