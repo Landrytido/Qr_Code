@@ -3,16 +3,26 @@ import { useState, useEffect } from "react";
 export const useMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
       if (window.innerWidth > 768) {
         setIsMenuOpen(false);
       }
     };
 
+    const checkTouch = () => {
+      setIsTouchDevice(
+        "ontouchstart" in window || navigator.maxTouchPoints > 0
+      );
+    };
+
     checkMobile();
+    checkTouch();
+
     window.addEventListener("resize", checkMobile);
 
     return () => window.removeEventListener("resize", checkMobile);
@@ -30,5 +40,5 @@ export const useMobile = () => {
     };
   }, [isMenuOpen, isMobile]);
 
-  return { isMobile, isMenuOpen, setIsMenuOpen };
+  return { isMobile, isMenuOpen, setIsMenuOpen, isTouchDevice };
 };
