@@ -271,7 +271,7 @@ const Generate = () => {
                 Choisissez le type de contenu et remplissez les informations
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+            <div className="generate-layout">
                 <div className="generator-form">
                     <div className="form-group">
                         <label className="form-label">Type de contenu</label>

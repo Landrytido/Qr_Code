@@ -509,9 +509,16 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-width: 600px;
-    margin: 0 auto;
     text-align: left;
+    width: 100%;
+}
+
+.generate-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1rem;
+    align-items: start;
 }
 
 .form-row {
@@ -1434,6 +1441,13 @@ body {
 
     .generate-form {
         gap: 1rem;
+        max-width: 100%;
+    }
+
+    .generate-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
     }
 
     .form-group {
@@ -1468,6 +1482,15 @@ body {
     .qr-preview canvas {
         max-width: 100%;
         height: auto;
+    }
+
+    .generate-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .generate-form {
+        max-width: 100%;
     }
 
     .customize-layout {
@@ -1564,6 +1587,12 @@ body {
 
     .generate-form {
         gap: 0.875rem;
+        max-width: 100%;
+    }
+
+    .generate-layout {
+        gap: 1rem;
+        margin-top: 0;
     }
 
     .form-group {
