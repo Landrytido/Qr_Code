@@ -17,7 +17,9 @@ const DEFAULT_OPTIONS = {
     bgColor: '#ffffff',
     fgColor: '#000000',
     level: 'M',
-    includeMargin: true
+    includeMargin: true,
+    logoType: 'none',
+    logoValue: ''
 }
 
 function loadSavedOptions() {

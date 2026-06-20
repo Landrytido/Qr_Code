@@ -9,8 +9,7 @@ import './History.css'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
-function buildCanvas(item, size) {
-    const canvas = document.createElement('canvas')
+function buildQROnCanvas(canvas, item, size) {
     const ctx = canvas.getContext('2d')
     const qr = qrCode(0, item.options.level || 'M')
     qr.addData(item.data)
@@ -31,6 +30,39 @@ function buildCanvas(item, size) {
             }
         }
     }
+}
+
+async function drawLogo(canvas, logoType, logoValue) {
+    if (!logoType || logoType === 'none' || !logoValue) return
+    const ctx = canvas.getContext('2d')
+    const size = canvas.width
+    const logoSize = Math.round(size * 0.22)
+    const x = Math.round((size - logoSize) / 2)
+    const y = Math.round((size - logoSize) / 2)
+    const pad = 5
+    ctx.fillStyle = '#ffffff'
+    ctx.beginPath()
+    ctx.roundRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2, 6)
+    ctx.fill()
+    if (logoType === 'emoji') {
+        ctx.font = `${Math.round(logoSize * 0.82)}px serif`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(logoValue, size / 2, size / 2)
+    } else if (logoType === 'image') {
+        await new Promise((resolve) => {
+            const img = new Image()
+            img.onload = () => { ctx.drawImage(img, x, y, logoSize, logoSize); resolve() }
+            img.onerror = resolve
+            img.src = logoValue
+        })
+    }
+}
+
+async function buildCanvas(item, size) {
+    const canvas = document.createElement('canvas')
+    buildQROnCanvas(canvas, item, size)
+    await drawLogo(canvas, item.options.logoType, item.options.logoValue)
     return canvas
 }
 
@@ -74,17 +106,18 @@ const History = () => {
         useEffect(() => {
             const canvas = canvasRef.current
             if (!canvas) return
-            const src = buildCanvas(item, 120)
-            const ctx = canvas.getContext('2d')
-            canvas.width = 120
-            canvas.height = 120
-            ctx.drawImage(src, 0, 0)
+            buildCanvas(item, 120).then(src => {
+                const ctx = canvas.getContext('2d')
+                canvas.width = 120
+                canvas.height = 120
+                ctx.drawImage(src, 0, 0)
+            })
         }, [item])
         return <canvas ref={canvasRef} className="history-qr-canvas" />
     }
 
-    const downloadPNG = (item) => {
-        const canvas = buildCanvas(item, item.options.size)
+    const downloadPNG = async (item) => {
+        const canvas = await buildCanvas(item, item.options.size)
         const link = document.createElement('a')
         link.download = `qr-code-${item.id}.png`
         link.href = canvas.toDataURL()
@@ -106,7 +139,7 @@ const History = () => {
 
     const copyToClipboard = async (item) => {
         try {
-            const canvas = buildCanvas(item, item.options.size)
+            const canvas = await buildCanvas(item, item.options.size)
             const blob = await new Promise(res => canvas.toBlob(res, 'image/png'))
             await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
             toast.success('Copié dans le presse-papier !')
@@ -118,7 +151,7 @@ const History = () => {
     const shareQR = async (item) => {
         if (!navigator.share) { toast.info('Partage non disponible sur ce navigateur'); return }
         try {
-            const canvas = buildCanvas(item, item.options.size)
+            const canvas = await buildCanvas(item, item.options.size)
             const blob = await new Promise(res => canvas.toBlob(res, 'image/png'))
             const file = new File([blob], 'qr-code.png', { type: 'image/png' })
             await navigator.share({ title: 'Mon QR Code', files: [file] })

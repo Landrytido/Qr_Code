@@ -5,16 +5,19 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import { useApp } from './hooks/useApp'
 import Sidebar from './components/Layout/Sidebar'
 import MainContent from './components/Layout/MainContent'
+import ErrorBoundary from './components/ErrorBoundary'
 import './styles/globals.css'
 
 const AppContent = () => {
   const { currentPage, setCurrentPage } = useApp()
 
   return (
-    <div className="app">
-      <Sidebar currentPage={currentPage} onPageChange={setCurrentPage} />
-      <MainContent currentPage={currentPage} />
-    </div>
+    <ErrorBoundary>
+      <div className="app">
+        <Sidebar currentPage={currentPage} onPageChange={setCurrentPage} />
+        <MainContent currentPage={currentPage} />
+      </div>
+    </ErrorBoundary>
   )
 }
 

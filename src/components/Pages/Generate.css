@@ -86,6 +86,73 @@
     font-weight: 600;
 }
 
+/* Logo section */
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.logo-optional {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+.logo-type-row {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.logo-type-btn {
+    flex: 1;
+    padding: 0.45rem 0.5rem;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-on-card-soft);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.logo-type-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-on-card);
+}
+
+.logo-type-btn--active {
+    border-color: var(--btn-bg);
+    background: rgba(0,212,170,0.1);
+    color: var(--btn-bg);
+}
+
+[data-theme="light"] .logo-type-btn {
+    border-color: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.03);
+}
+
+[data-theme="light"] .logo-type-btn--active {
+    border-color: var(--btn-bg);
+    background: rgba(99,102,241,0.08);
+    color: var(--btn-bg);
+}
+
+.logo-emoji-input {
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 0.6rem;
+    letter-spacing: 0.2em;
+}
+
+.logo-hint {
+    font-size: 0.75rem;
+    color: var(--text-on-card-soft);
+    opacity: 0.7;
+    line-height: 1.4;
+}
+
 .generate-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;

@@ -35,6 +35,33 @@ function buildQRString(contentType, localData, wifiData, contactData) {
     }
 }
 
+async function drawLogo(canvas, logoType, logoValue) {
+    if (logoType === 'none' || !logoValue) return
+    const ctx = canvas.getContext('2d')
+    const size = canvas.width
+    const logoSize = Math.round(size * 0.22)
+    const x = Math.round((size - logoSize) / 2)
+    const y = Math.round((size - logoSize) / 2)
+    const pad = 5
+    ctx.fillStyle = '#ffffff'
+    ctx.beginPath()
+    ctx.roundRect(x - pad, y - pad, logoSize + pad * 2, logoSize + pad * 2, 6)
+    ctx.fill()
+    if (logoType === 'emoji') {
+        ctx.font = `${Math.round(logoSize * 0.82)}px serif`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(logoValue, size / 2, size / 2)
+    } else if (logoType === 'image') {
+        await new Promise((resolve) => {
+            const img = new Image()
+            img.onload = () => { ctx.drawImage(img, x, y, logoSize, logoSize); resolve() }
+            img.onerror = resolve
+            img.src = logoValue
+        })
+    }
+}
+
 function renderToCanvas(canvas, data, options) {
     const qr = qrCode(0, options.level || 'M')
     qr.addData(data)
@@ -120,10 +147,13 @@ const Generate = () => {
     const updatePreview = useCallback((data, opts) => {
         clearTimeout(debounceRef.current)
         if (!data.trim()) { setPreviewDataUrl(null); return }
-        debounceRef.current = setTimeout(() => {
+        debounceRef.current = setTimeout(async () => {
             try {
                 const canvas = document.createElement('canvas')
-                renderToCanvas(canvas, data, { ...opts, size: 280 })
+                const previewOpts = { ...opts, size: 280 }
+                if (opts.logoType !== 'none') previewOpts.level = 'H'
+                renderToCanvas(canvas, data, previewOpts)
+                await drawLogo(canvas, opts.logoType, opts.logoValue)
                 setPreviewDataUrl(canvas.toDataURL())
             } catch { setPreviewDataUrl(null) }
         }, 400)
@@ -174,9 +204,11 @@ const Generate = () => {
         setQrData(dataToGenerate)
         try {
             const canvas = canvasRef.current
-            renderToCanvas(canvas, dataToGenerate, qrOptions)
+            const opts = qrOptions.logoType !== 'none' ? { ...qrOptions, level: 'H' } : qrOptions
+            renderToCanvas(canvas, dataToGenerate, opts)
+            await drawLogo(canvas, qrOptions.logoType, qrOptions.logoValue)
             setGeneratedDataUrl(canvas.toDataURL())
-            generateQR(dataToGenerate, qrOptions)
+            generateQR(dataToGenerate, opts)
             toast.success('QR code généré !')
         } catch (e) {
             console.error(e)
@@ -339,6 +371,47 @@ const Generate = () => {
                     </div>
 
                     {renderContentForm()}
+
+                    <div className="logo-section">
+                        <label className="form-label">Logo central <span className="logo-optional">(optionnel)</span></label>
+                        <div className="logo-type-row">
+                            {['none', 'emoji', 'image'].map(t => (
+                                <button key={t} type="button"
+                                    className={`logo-type-btn${qrOptions.logoType === t ? ' logo-type-btn--active' : ''}`}
+                                    onClick={() => setQrOptions({ logoType: t, logoValue: '' })}>
+                                    {t === 'none' ? '✕ Aucun' : t === 'emoji' ? '😀 Emoji' : '🖼 Image'}
+                                </button>
+                            ))}
+                        </div>
+                        {qrOptions.logoType === 'emoji' && (
+                            <input className="form-input logo-emoji-input" type="text" maxLength={2}
+                                placeholder="Ex: ❤️ 🔗 ✅"
+                                value={qrOptions.logoValue}
+                                onChange={(e) => {
+                                    const val = [...e.target.value].slice(0, 2).join('')
+                                    setQrOptions({ logoValue: val })
+                                    const d = buildQRString(contentType, localData, wifiData, contactData)
+                                    updatePreview(d, { ...qrOptions, logoValue: val })
+                                }} />
+                        )}
+                        {qrOptions.logoType === 'image' && (
+                            <input type="file" accept="image/*" className="form-input"
+                                onChange={(e) => {
+                                    const file = e.target.files[0]
+                                    if (!file) return
+                                    const reader = new FileReader()
+                                    reader.onload = (ev) => {
+                                        setQrOptions({ logoValue: ev.target.result })
+                                        const d = buildQRString(contentType, localData, wifiData, contactData)
+                                        updatePreview(d, { ...qrOptions, logoValue: ev.target.result })
+                                    }
+                                    reader.readAsDataURL(file)
+                                }} />
+                        )}
+                        {qrOptions.logoType !== 'none' && (
+                            <p className="logo-hint">Le niveau de correction passe automatiquement à H pour garantir la lisibilité.</p>
+                        )}
+                    </div>
 
                     <button className="btn generate-btn" onClick={handleGenerate} disabled={isGenerating}>
                         {isGenerating ? 'Génération...' : 'Générer & sauvegarder'}
