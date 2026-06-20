@@ -324,14 +324,18 @@ const Generate = () => {
 
             <div className="generate-layout">
                 <div className="generator-form">
-                    <div className="form-group">
-                        <label className="form-label">Type de contenu</label>
-                        <select className="form-select" value={contentType}
-                            onChange={(e) => handleContentTypeChange(e.target.value)}>
-                            {contentTypes.map(t => (
-                                <option key={t.id} value={t.id}>{t.icon} {t.label}</option>
-                            ))}
-                        </select>
+                    <div className="content-type-grid">
+                        {contentTypes.map(t => (
+                            <button
+                                key={t.id}
+                                className={`content-type-btn${contentType === t.id ? ' content-type-btn--active' : ''}`}
+                                onClick={() => handleContentTypeChange(t.id)}
+                                type="button"
+                            >
+                                <span className="content-type-btn__icon">{t.icon}</span>
+                                <span className="content-type-btn__label">{t.label}</span>
+                            </button>
+                        ))}
                     </div>
 
                     {renderContentForm()}

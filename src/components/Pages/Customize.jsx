@@ -7,7 +7,7 @@ import SEOHead from '../SEOHead'
 import './Customize.css'
 
 const Customize = () => {
-    const { qrOptions, setQrOptions } = useApp()
+    const { qrOptions, setQrOptions, setCurrentPage } = useApp()
     const canvasRef = useRef(null)
 
     const generatePreview = useCallback(() => {
@@ -54,6 +54,7 @@ const Customize = () => {
     }
 
     const resetToDefaults = () => {
+        localStorage.removeItem('qr-options')
         setQrOptions({
             size: 256,
             bgColor: '#ffffff',
@@ -155,7 +156,10 @@ const Customize = () => {
                     </div>
 
                     <div className="customize-footer">
-                        <button className="btn" onClick={resetToDefaults}>
+                        <button className="btn btn-generate-cta" onClick={() => setCurrentPage('generate')}>
+                            ✦ Générer un QR code avec ce style
+                        </button>
+                        <button className="btn btn-reset" onClick={resetToDefaults}>
                             Réinitialiser
                         </button>
                         {qrOptions.fgColor === qrOptions.bgColor && (

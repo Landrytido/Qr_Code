@@ -12,16 +12,27 @@ const ACTIONS = {
     LOAD_FROM_HISTORY: 'LOAD_FROM_HISTORY'
 }
 
+const DEFAULT_OPTIONS = {
+    size: 256,
+    bgColor: '#ffffff',
+    fgColor: '#000000',
+    level: 'M',
+    includeMargin: true
+}
+
+function loadSavedOptions() {
+    try {
+        const saved = localStorage.getItem('qr-options')
+        return saved ? { ...DEFAULT_OPTIONS, ...JSON.parse(saved) } : DEFAULT_OPTIONS
+    } catch {
+        return DEFAULT_OPTIONS
+    }
+}
+
 const initialState = {
     currentPage: 'home',
     qrData: '',
-    qrOptions: {
-        size: 256,
-        bgColor: '#ffffff',
-        fgColor: '#000000',
-        level: 'M',
-        includeMargin: true
-    },
+    qrOptions: loadSavedOptions(),
     history: []
 }
 
@@ -33,8 +44,11 @@ const appReducer = (state, action) => {
         case ACTIONS.SET_QR_DATA:
             return { ...state, qrData: action.payload }
 
-        case ACTIONS.SET_QR_OPTIONS:
-            return { ...state, qrOptions: { ...state.qrOptions, ...action.payload } }
+        case ACTIONS.SET_QR_OPTIONS: {
+            const updated = { ...state.qrOptions, ...action.payload }
+            try { localStorage.setItem('qr-options', JSON.stringify(updated)) } catch {}
+            return { ...state, qrOptions: updated }
+        }
 
         case ACTIONS.ADD_TO_HISTORY: {
             const newItem = {

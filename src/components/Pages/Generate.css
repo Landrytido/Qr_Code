@@ -1,3 +1,64 @@
+.content-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.65rem 0.5rem;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-on-card-soft);
+    cursor: pointer;
+    transition: all 0.18s;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.content-type-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-on-card);
+}
+
+.content-type-btn--active {
+    background: rgba(0, 212, 170, 0.12);
+    border-color: var(--btn-bg);
+    color: var(--btn-bg);
+}
+
+.content-type-btn__icon {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.content-type-btn__label {
+    line-height: 1.2;
+    text-align: center;
+}
+
+[data-theme="light"] .content-type-btn {
+    border-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .content-type-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    border-color: rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="light"] .content-type-btn--active {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: var(--btn-bg);
+    color: var(--btn-bg);
+}
+
 .generate-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
