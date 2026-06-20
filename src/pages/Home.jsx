@@ -4,26 +4,10 @@ import './Home.css'
 
 function Home() {
     const features = [
-        {
-            icon: '⚡',
-            title: 'Génération rapide',
-            description: 'Créez vos QR codes en quelques clics'
-        },
-        {
-            icon: '🎨',
-            title: 'Personnalisation',
-            description: 'Couleurs et styles à votre goût'
-        },
-        {
-            icon: '📱',
-            title: 'Responsive',
-            description: 'Parfait sur mobile et desktop'
-        },
-        {
-            icon: '💾',
-            title: 'Sauvegarde',
-            description: 'Historique de tous vos QR codes'
-        }
+        { icon: '⚡', title: 'Génération rapide', description: 'Créez vos QR codes en quelques clics' },
+        { icon: '🎨', title: 'Personnalisation', description: 'Couleurs et styles à votre goût' },
+        { icon: '📱', title: 'Responsive', description: 'Parfait sur mobile et desktop' },
+        { icon: '📚', title: 'Sauvegarde', description: 'Historique de tous vos QR codes' }
     ]
 
     return (

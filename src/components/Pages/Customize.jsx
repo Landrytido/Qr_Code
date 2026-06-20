@@ -4,6 +4,7 @@ import qrCode from 'qrcode-generator'
 import ContentCard from '../UI/ContentCard'
 import FeatureCard from '../UI/FeatureCard'
 import SEOHead from '../SEOHead'
+import './Customize.css'
 
 const Customize = () => {
     const { qrOptions, setQrOptions } = useApp()
@@ -83,32 +84,32 @@ const Customize = () => {
                 <div className="customize-controls">
                     <div className="customization-grid">
                         <FeatureCard title="Couleurs">
-                            <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                    <span style={{ color: '#e2e8f0', minWidth: '100px', fontWeight: '500' }}>QR Code:</span>
+                            <div className="card-field-group">
+                                <div className="color-row">
+                                    <span className="color-label">QR Code:</span>
                                     <input
                                         type="color"
                                         className="color-picker"
                                         value={qrOptions.fgColor}
                                         onChange={(e) => handleOptionChange('fgColor', e.target.value)}
                                     />
-                                    <span style={{ color: '#cbd5e1', fontSize: '0.9rem', fontFamily: 'monospace' }}>{qrOptions.fgColor}</span>
+                                    <span className="color-hex">{qrOptions.fgColor}</span>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                    <span style={{ color: '#e2e8f0', minWidth: '100px', fontWeight: '500' }}>Arrière-plan:</span>
+                                <div className="color-row">
+                                    <span className="color-label">Arrière-plan:</span>
                                     <input
                                         type="color"
                                         className="color-picker"
                                         value={qrOptions.bgColor}
                                         onChange={(e) => handleOptionChange('bgColor', e.target.value)}
                                     />
-                                    <span style={{ color: '#cbd5e1', fontSize: '0.9rem', fontFamily: 'monospace' }}>{qrOptions.bgColor}</span>
+                                    <span className="color-hex">{qrOptions.bgColor}</span>
                                 </div>
                             </div>
                         </FeatureCard>
 
                         <FeatureCard title="Taille">
-                            <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
+                            <div className="card-field-group">
                                 <input
                                     type="range"
                                     min="128"
@@ -118,14 +119,14 @@ const Customize = () => {
                                     onChange={(e) => handleOptionChange('size', parseInt(e.target.value))}
                                     className="size-slider"
                                 />
-                                <div style={{ textAlign: 'center' }}>
-                                    <strong style={{ color: '#00d4aa' }}>{qrOptions.size}px</strong>
+                                <div className="size-value">
+                                    <strong>{qrOptions.size}px</strong>
                                 </div>
                             </div>
                         </FeatureCard>
 
                         <FeatureCard title="Niveau de correction">
-                            <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
+                            <div className="card-field-group">
                                 <select
                                     className="form-select"
                                     value={qrOptions.level}
@@ -140,8 +141,8 @@ const Customize = () => {
                         </FeatureCard>
 
                         <FeatureCard title="Options">
-                            <div style={{ display: 'grid', gap: '1rem', marginTop: '1rem' }}>
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#e2e8f0', fontWeight: '500' }}>
+                            <div className="card-field-group">
+                                <label className="checkbox-label">
                                     <input
                                         type="checkbox"
                                         checked={qrOptions.includeMargin}
@@ -153,28 +154,19 @@ const Customize = () => {
                         </FeatureCard>
                     </div>
 
-                    <div style={{ marginTop: '2rem' }}>
-                        <button className="btn" onClick={resetToDefaults} style={{ marginRight: '1rem' }}>
+                    <div className="customize-footer">
+                        <button className="btn" onClick={resetToDefaults}>
                             Réinitialiser
                         </button>
                         {qrOptions.fgColor === qrOptions.bgColor && (
-                            <div style={{
-                                marginTop: '1rem',
-                                padding: '0.75rem',
-                                background: 'rgba(255, 59, 48, 0.1)',
-                                border: '1px solid rgba(255, 59, 48, 0.3)',
-                                borderRadius: '8px',
-                                color: '#ff6b6b',
-                                fontSize: '0.9rem'
-                            }}>
-                                ⚠️ Les couleurs de premier plan et d'arrière-plan sont identiques. Le QR code ne sera pas lisible.
+                            <div className="color-warning">
+                                ⚠️
+                                <span>Les couleurs de premier plan et d'arrière-plan sont identiques. Le QR code ne sera pas lisible.</span>
                             </div>
                         )}
-                        <div style={{ marginTop: '1rem' }}>
-                            <span style={{ color: '#cbd5e1' }}>
-                                Les paramètres sont sauvegardés automatiquement
-                            </span>
-                        </div>
+                        <span className="autosave-hint">
+                            Les paramètres sont sauvegardés automatiquement
+                        </span>
                     </div>
                 </div>
 
@@ -182,10 +174,7 @@ const Customize = () => {
                     <div className="preview-container">
                         <h3 className="preview-title">Aperçu en temps réel</h3>
                         <div className="preview-qr">
-                            <canvas
-                                ref={canvasRef}
-                                className="preview-canvas"
-                            />
+                            <canvas ref={canvasRef} className="preview-canvas" />
                         </div>
                         <div className="preview-info">
                             <div className="preview-detail">
@@ -206,22 +195,16 @@ const Customize = () => {
                             </div>
                             <div className="preview-detail">
                                 <span>Couleurs: </span>
-                                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                                    <div style={{
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: qrOptions.fgColor,
-                                        border: '1px solid rgba(255,255,255,0.2)',
-                                        borderRadius: '2px'
-                                    }}></div>
-                                    <span style={{ fontSize: '0.8rem' }}>sur</span>
-                                    <div style={{
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: qrOptions.bgColor,
-                                        border: '1px solid rgba(255,255,255,0.2)',
-                                        borderRadius: '2px'
-                                    }}></div>
+                                <div className="color-swatches">
+                                    <div
+                                        className="color-swatch"
+                                        style={{ backgroundColor: qrOptions.fgColor }}
+                                    />
+                                    <span className="color-swatch-sep">sur</span>
+                                    <div
+                                        className="color-swatch"
+                                        style={{ backgroundColor: qrOptions.bgColor }}
+                                    />
                                 </div>
                             </div>
                             <div className="preview-detail">

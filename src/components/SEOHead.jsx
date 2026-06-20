@@ -1,48 +1,36 @@
-import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async'
+import PropTypes from 'prop-types'
+
+const BASE_URL = 'https://qr-code-kappa-flame.vercel.app'
 
 const SEOHead = ({ title, description, keywords, path = '' }) => {
-    useEffect(() => {
-        // Mise à jour du titre
-        document.title = title || 'QR Studio - Générateur de QR Code Gratuit';
+    const fullTitle = title || 'QR Studio - Générateur de QR Code Gratuit'
+    const fullDesc = description || 'Créez des QR codes personnalisés gratuitement avec QR Studio. Générateur moderne, rapide et intuitif.'
+    const url = `${BASE_URL}${path}`
 
-        // Mise à jour de la description
-        const metaDescription = document.querySelector('meta[name="description"]');
-        if (metaDescription) {
-            metaDescription.setAttribute('content', description || 'Créez des QR codes personnalisés gratuitement avec QR Studio. Générateur moderne, rapide et intuitif.');
-        }
+    return (
+        <Helmet>
+            <title>{fullTitle}</title>
+            <meta name="description" content={fullDesc} />
+            {keywords && <meta name="keywords" content={keywords} />}
+            <link rel="canonical" href={url} />
 
-        // Mise à jour des keywords
-        const metaKeywords = document.querySelector('meta[name="keywords"]');
-        if (metaKeywords && keywords) {
-            metaKeywords.setAttribute('content', keywords);
-        }
+            <meta property="og:title" content={fullTitle} />
+            <meta property="og:description" content={fullDesc} />
+            <meta property="og:url" content={url} />
 
-        // Mise à jour de l'URL canonique
-        const canonicalLink = document.querySelector('link[rel="canonical"]');
-        if (canonicalLink) {
-            canonicalLink.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
-        }
+            <meta name="twitter:title" content={fullTitle} />
+            <meta name="twitter:description" content={fullDesc} />
+            <meta name="twitter:url" content={url} />
+        </Helmet>
+    )
+}
 
-        // Mise à jour Open Graph
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        const ogDescription = document.querySelector('meta[property="og:description"]');
-        const ogUrl = document.querySelector('meta[property="og:url"]');
+SEOHead.propTypes = {
+    title: PropTypes.string,
+    description: PropTypes.string,
+    keywords: PropTypes.string,
+    path: PropTypes.string
+}
 
-        if (ogTitle) ogTitle.setAttribute('content', title);
-        if (ogDescription) ogDescription.setAttribute('content', description);
-        if (ogUrl) ogUrl.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
-
-        // Mise à jour Twitter
-        const twitterTitle = document.querySelector('meta[property="twitter:title"]');
-        const twitterDescription = document.querySelector('meta[property="twitter:description"]');
-        const twitterUrl = document.querySelector('meta[property="twitter:url"]');
-
-        if (twitterTitle) twitterTitle.setAttribute('content', title);
-        if (twitterDescription) twitterDescription.setAttribute('content', description);
-        if (twitterUrl) twitterUrl.setAttribute('href', `https://qr-code-kappa-flame.vercel.app${path}`);
-    }, [title, description, keywords, path]);
-
-    return null;
-};
-
-export default SEOHead;
+export default SEOHead

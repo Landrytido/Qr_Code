@@ -1,0 +1,128 @@
+.generate-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .generate-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.generator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.generate-btn {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.generate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Champ invalide */
+.form-input--error {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.field-error {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    color: #ef4444;
+    font-weight: 500;
+}
+
+/* Zone préview droite */
+.qr-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.qr-placeholder {
+    text-align: center;
+    padding: 3rem 2rem;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 16px;
+    color: var(--text-on-card-soft);
+    width: 100%;
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+[data-theme="light"] .qr-placeholder {
+    border-color: rgba(0,0,0,0.15);
+}
+
+.qr-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.qr-result__badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    background: rgba(0,212,170,0.15);
+    color: var(--btn-bg);
+    letter-spacing: 0.03em;
+}
+
+.qr-result__img {
+    max-width: 280px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+/* Boutons d'action sous l'image */
+.qr-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.qr-action-btn {
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: var(--text-on-card);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.qr-action-btn:hover {
+    background: rgba(255,255,255,0.16);
+    border-color: rgba(255,255,255,0.3);
+}
+
+[data-theme="light"] .qr-action-btn {
+    border-color: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.04);
+}
+
+[data-theme="light"] .qr-action-btn:hover {
+    background: rgba(0,0,0,0.08);
+    border-color: rgba(0,0,0,0.2);
+}

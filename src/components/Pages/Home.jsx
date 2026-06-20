@@ -2,7 +2,6 @@ import ContentCard from '../UI/ContentCard'
 import FeatureCard from '../UI/FeatureCard'
 import QRLogo from '../UI/QRLogo'
 import { useApp } from '../../hooks/useApp'
-
 const Home = () => {
     const { setCurrentPage } = useApp()
 

@@ -1,4 +1,7 @@
+import { HelmetProvider } from 'react-helmet-async'
 import { AppProvider } from './contexts/AppContext'
+import { ToastProvider } from './contexts/ToastContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import { useApp } from './hooks/useApp'
 import Sidebar from './components/Layout/Sidebar'
 import MainContent from './components/Layout/MainContent'
@@ -17,9 +20,15 @@ const AppContent = () => {
 
 function App() {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <AppProvider>
+          <ToastProvider>
+            <AppContent />
+          </ToastProvider>
+        </AppProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   )
 }
 
