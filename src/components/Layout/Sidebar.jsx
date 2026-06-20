@@ -22,15 +22,17 @@ const Sidebar = ({ currentPage, onPageChange }) => {
 
     return (
         <>
-            <button
-                className="mobile-menu-toggle"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Toggle menu"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            {!isMenuOpen && (
+                <button
+                    className="mobile-menu-toggle"
+                    onClick={() => setIsMenuOpen(true)}
+                    aria-label="Ouvrir le menu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            )}
 
             <div className={`sidebar ${isMenuOpen ? 'sidebar-open' : ''}`}>
                 <div className="sidebar-header">
